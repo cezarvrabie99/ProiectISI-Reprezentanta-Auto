@@ -44,5 +44,8 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="jspdf" level="application" />
+    <orderEntry type="library" name="jspdf-autotable" level="application" />
   </component>
 </module>

@@ -15,6 +15,12 @@
     <link rel="icon" href="${pageContext.request.contextPath}/assets/img/tesla_icon.png">
     <meta charset="UTF-8">
     <link href="${pageContext.request.contextPath}/assets/style/styles.css" rel="stylesheet" type="text/css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/searchTable.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/exportToExcel.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/exportToPDF.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="prod">
@@ -33,7 +39,10 @@
             }
         }
     </script>
-
+    <div class="link">
+        <a class="edit" onclick="exportToExcel('table', 'piese')"><img src="${pageContext.request.contextPath}/assets/img/excel.png" alt="Export Excel" title="Export Excel"></a>
+        <a class="edit" onclick="exportToPDF('#table', 'Piese')"><img src="${pageContext.request.contextPath}/assets/img/pdf.png" alt="Export PDF" title="Export PDF"></a>
+    </div>
     <input name="adauga" type="submit" value="Adauga">
 </form>
 <input type='text' id='searchTable' placeholder='Cautare'>
@@ -72,8 +81,8 @@
             <td><%= rs.getDouble(4)%></td>
 
             <td class="link">
-                <a id="edit" href="../edit/editPiese.php?codp=<?php echo $ps->codp ?>">Editeaza</a>
-                <a id="delete" href="${pageContext.request.contextPath}/piese/delete?codp=<%= rs.getString(1)%>" methods="">Sterge</a>
+                <a id="edit" href="${pageContext.request.contextPath}/edit/editPiese.jsp?codp=<%= rs.getString(1)%>">Editeaza</a>
+                <a id="delete" href="${pageContext.request.contextPath}/piese?action=delete&codp=<%= rs.getString(1)%>" methods="">Sterge</a>
             </td>
         </tr>
 

@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
             if (utilizatoriDAO.validate(utilizatoriModel)) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
-                response.sendRedirect("loginsuccess.jsp");
+                response.sendRedirect("piese.jsp");
             } else {
                 response.sendRedirect("index.jsp");
             }

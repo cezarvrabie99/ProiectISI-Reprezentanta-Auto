@@ -104,9 +104,10 @@ td, th {
 
 .link a:hover {
     background-color: #ccc;
+    cursor: pointer;
 }
 
-#edit {
+.edit {
     color: green;
 }
 

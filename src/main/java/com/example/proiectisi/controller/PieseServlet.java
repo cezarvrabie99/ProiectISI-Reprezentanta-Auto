@@ -23,23 +23,19 @@ public class PieseServlet extends HttpServlet {
         }
     }
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getServletPath();
-        if (Objects.equals(action, "/delete")){
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (Objects.equals(request.getParameter("action"), "delete")){
             try {
                 pieseDAO.delete(request.getParameter("codp"));
-                System.out.println("delete");
             } catch (SQLException e) {
                 e.printStackTrace();
-                System.out.println("delete catch");
             }
         }
-        System.out.println("else");
-        response.sendRedirect("loginsuccess.jsp");
+        response.sendRedirect("piese.jsp");
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String codp = request.getParameter("codp");
         String denp = request.getParameter("denp");
         String pretp = request.getParameter("pretp");
@@ -51,14 +47,26 @@ public class PieseServlet extends HttpServlet {
         pieseModel.setPretp(pretp);
         pieseModel.setPretptva(pretptva);
 
-        try {
-            if (pieseDAO.insert(pieseModel)) {
-                response.sendRedirect("loginsuccess.jsp");
-            } else {
-                response.sendRedirect("index.jsp");
+        if (Objects.equals(request.getParameter("action"), "edit")){
+            try {
+                if (pieseDAO.update(pieseModel)) {
+                    response.sendRedirect("piese.jsp");
+                } else {
+                    response.sendRedirect("index.jsp");
+                }
+            } catch (ClassNotFoundException | SQLException e) {
+                e.printStackTrace();
             }
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+        } else {
+            try {
+                if (pieseDAO.insert(pieseModel)) {
+                    response.sendRedirect("piese.jsp");
+                } else {
+                    response.sendRedirect("index.jsp");
+                }
+            } catch (ClassNotFoundException | SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
