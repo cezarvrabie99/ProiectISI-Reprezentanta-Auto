@@ -1,7 +1,8 @@
 <%@ page import="java.sql.Connection" %>
 <%@ page import="com.example.proiectisi.SqlConnection" %>
 <%@ page import="java.sql.PreparedStatement" %>
-<%@ page import="java.sql.ResultSet" %><%--
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.util.Objects" %><%--
   Created by IntelliJ IDEA.
   User: cezar
   Date: 12/19/2021
@@ -23,8 +24,15 @@
     <script src="${pageContext.request.contextPath}/assets/js/exportToPDF.js" type="text/javascript"></script>
 </head>
 <body>
+<%
+if (!Objects.equals(session.getAttribute("user"), "manager")) {
+    response.sendRedirect("index.jsp");
+}
+%>
 <div id="prod">
 <form method="post" action="${pageContext.request.contextPath}/piese" autocomplete="off">
+    <label>Logat cu <%=session.getAttribute("user")%></label>
+    <a href="${pageContext.request.contextPath}/logout">Logout</a>
     <input name="codp" type="text" placeholder="Cod piesa">
     <input name="denp" type="text" placeholder="Denumire">
     <input name="pretp" id="pretp" type="number" placeholder="Pret(fara TVA)" onkeyup="addVat()">
@@ -70,9 +78,7 @@
         </tr>
     </thead>
     <tbody>
-        <%
-            while(rs.next())
-            {%>
+        <%do {%>
 
         <tr>
             <td><%= rs.getString(1)%></td>
@@ -86,7 +92,7 @@
             </td>
         </tr>
 
-        <%}
+        <%} while(rs.next());
         }
 
         }
