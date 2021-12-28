@@ -2,7 +2,11 @@
 <%@ page import="com.example.proiectisi.SqlConnection" %>
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
-<%@ page import="java.util.Objects" %><%--
+<%@ page import="java.util.Objects" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Arrays" %>
+<%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
   User: cezar
   Date: 12/19/2021
@@ -17,9 +21,26 @@
 </head>
 <body>
 <%
-    if (!Objects.equals(session.getAttribute("user"), "manager")) {
-        response.sendRedirect("index.jsp");
+    String currentUser = (String) session.getAttribute("user");
+    int codLog = -1;
+    try {
+        Connection connection = SqlConnection.getInstance().getConnection();
+        String sql = "select codf from utilizatori where username = ?;";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setString(1, currentUser);
+        ResultSet rs = stmt.executeQuery();
+
+        if(!rs.next())
+            System.out.println("No Records in the table");
+        else
+            codLog = rs.getInt(1);
+
+    } catch (ClassNotFoundException | SQLException e) {
+        e.printStackTrace();
     }
+
+    if (codLog != 4)
+        response.sendRedirect("index.jsp");
 %>
 <div id="prod">
     <form method="post" action="${pageContext.request.contextPath}/angajati" autocomplete="off">
