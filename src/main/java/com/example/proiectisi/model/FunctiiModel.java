@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class FunctiiModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    String denf, salariubrut, salariunet;
+    private String denf, salariubrut, salariunet;
 
     public FunctiiModel(String denf, String salariubrut, String salariunet) {
         this.denf = denf;

@@ -5,16 +5,7 @@ import java.io.Serializable;
 public class AngajatiModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    String numea;
-    String prenumea;
-    String cnp;
-    String adresaa;
-    String telefona;
-    String emailaa;
-    String localitate;
-    String judet;
-    String tara;
-    String codf;
+    private String numea, prenumea, cnp, adresaa, telefona, emailaa, localitate, judet, tara, codf;
 
     public AngajatiModel(String numea, String prenumea, String cnp, String adresaa, String telefona, String emailaa, String localitate, String judet, String tara, String codf) {
         this.numea = numea;

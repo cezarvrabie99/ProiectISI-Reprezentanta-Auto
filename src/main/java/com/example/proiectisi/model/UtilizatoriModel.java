@@ -4,9 +4,7 @@ import java.io.Serializable;
 
 public class UtilizatoriModel implements Serializable {
     private static final long serialVersionUID = 1L;
-    private String username;
-    private String password;
-    private String codf;
+    private String username, password, codf;
 
     public UtilizatoriModel(String username, String password, String codf) {
         this.username = username;

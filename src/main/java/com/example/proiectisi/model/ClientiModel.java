@@ -5,15 +5,7 @@ import java.io.Serializable;
 public class ClientiModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    String numec;
-    String prenumec;
-    String cnp;
-    String adresac;
-    String telefonc;
-    String emailc;
-    String localitate;
-    String judet;
-    String tara;
+    private String numec, prenumec, cnp, adresac, telefonc, emailc, localitate, judet, tara;
 
     public ClientiModel(String numec, String prenumec, String cnp, String adresac, String telefonc, String emailc, String localitate, String judet, String tara) {
         this.numec = numec;
