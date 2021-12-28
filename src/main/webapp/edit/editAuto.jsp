@@ -3,7 +3,10 @@
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.sql.SQLException" %>
-<%@ page import="java.util.Objects" %><%--
+<%@ page import="java.util.Objects" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Arrays" %><%--
   Created by IntelliJ IDEA.
   User: cezar
   Date: 12/28/2021
@@ -37,7 +40,9 @@
         e.printStackTrace();
     }
 
-    if (codLog != 4 || request.getParameter("vin") == null)
+    List<Integer> allowed = new ArrayList<>(Arrays.asList(4, 6, 7));
+
+    if (!allowed.contains(codLog) || request.getParameter("vin") == null)
         response.sendRedirect("../index.jsp");
 %>
 

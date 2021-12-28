@@ -2,7 +2,10 @@
 <%@ page import="com.example.proiectisi.SqlConnection" %>
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
-<%@ page import="java.sql.SQLException" %><%--
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="java.util.Arrays" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
   User: cezar
   Date: 12/28/2021
@@ -36,7 +39,9 @@
         e.printStackTrace();
     }
 
-    if (codLog != 4)
+    List<Integer> allowed = new ArrayList<>(Arrays.asList(4, 6, 7));
+
+    if (!allowed.contains(codLog))
         response.sendRedirect("index.jsp");
 %>
 
@@ -46,7 +51,11 @@
 
 <script>
     $(function(){
-        $("#nav-placeholder").load("assets/nav/manager.html");
+        const cod = <%=codLog %>;
+        if (cod === 4)
+            $("#nav-placeholder").load("assets/nav/manager.html");
+        else if (cod === 6 || cod === 7)
+            $("#nav-placeholder").load("assets/nav/consilier.html");
     });
 </script>
 
@@ -118,13 +127,13 @@
         <input name="adauga" type="submit" value="Adauga">
     </form>
 
+    <% if (codLog != 6) {%>
     <hr>
-
     <div class="link">
         <a class="edit" onclick="exportToExcel('table', 'Autoturisme')"><img src="${pageContext.request.contextPath}/assets/img/excel.png" alt="Export Excel" title="Export Excel"></a>
         <a class="edit" onclick="exportToPDF('#table', 'Autoturisme')"><img src="${pageContext.request.contextPath}/assets/img/pdf.png" alt="Export PDF" title="Export PDF"></a>
     </div>
-
+    <% } %>
     <hr>
 
     <input type='text' id='searchTable' placeholder='Cautare'>
@@ -177,10 +186,12 @@
         <td><%= rs.getInt(13)%></td>
         <td><%= rs.getInt(14)%></td>
 
-        <td class="link">
-            <a id="edit" href="${pageContext.request.contextPath}/edit/editAuto.jsp?vin=<%= rs.getString(1)%>">Editeaza</a>
-            <a id="delete" href="${pageContext.request.contextPath}/auto?action=delete&vin=<%= rs.getString(1)%>" methods="">Sterge</a>
-        </td>
+        <% if (codLog != 7) {%>
+            <td class="link">
+                <a id="edit" href="${pageContext.request.contextPath}/edit/editAuto.jsp?vin=<%= rs.getString(1)%>">Editeaza</a>
+                <a id="delete" href="${pageContext.request.contextPath}/auto?action=delete&vin=<%= rs.getString(1)%>" methods="">Sterge</a>
+            </td>
+        <% } %>
     </tr>
 
     <%} while(rs.next());

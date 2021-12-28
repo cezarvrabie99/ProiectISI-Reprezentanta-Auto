@@ -1,16 +1,15 @@
-        <%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.Connection" %>
 <%@ page import="com.example.proiectisi.SqlConnection" %>
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
-        <%@ page import="java.util.Objects" %>
-        <%@ page import="java.sql.SQLException" %><%--
+<%@ page import="java.sql.SQLException" %><%--
   Created by IntelliJ IDEA.
   User: cezar
   Date: 12/27/2021
   Time: 11:35 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@include file="../headMin.html"%>
 <html>
 <head>

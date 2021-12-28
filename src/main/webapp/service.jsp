@@ -1,8 +1,11 @@
-<%@ page import="java.util.Objects" %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="com.example.proiectisi.SqlConnection" %>
 <%@ page import="java.sql.PreparedStatement" %>
-<%@ page import="java.sql.ResultSet" %><%--
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Arrays" %>
+<%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
   User: cezar
   Date: 12/28/2021
@@ -14,12 +17,32 @@
 <html>
 <head>
     <title>Service</title>
+    <script src="${pageContext.request.contextPath}/assets/js/getVanzare.js" type="text/javascript"></script>
 </head>
 <body>
 <%
-    if (!Objects.equals(session.getAttribute("user"), "manager")) {
-        response.sendRedirect("index.jsp");
+    String currentUser = (String) session.getAttribute("user");
+    int codLog = -1;
+    try {
+        Connection connection = SqlConnection.getInstance().getConnection();
+        String sql = "select codf from utilizatori where username = ?;";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setString(1, currentUser);
+        ResultSet rs = stmt.executeQuery();
+
+        if(!rs.next())
+            System.out.println("No Records in the table");
+        else
+            codLog = rs.getInt(1);
+
+    } catch (ClassNotFoundException | SQLException e) {
+        e.printStackTrace();
     }
+
+    List<Integer> allowed = new ArrayList<>(Arrays.asList(4, 6, 7, 1));
+
+    if (!allowed.contains(codLog))
+        response.sendRedirect("index.jsp");
 %>
 
 <div id="nav-placeholder">
@@ -28,14 +51,21 @@
 
 <script>
     $(function(){
-        $("#nav-placeholder").load("assets/nav/manager.html");
+        const cod = <%=codLog %>;
+        if (cod === 4)
+            $("#nav-placeholder").load("assets/nav/manager.html");
+        else if (cod === 6 || cod === 7)
+            $("#nav-placeholder").load("assets/nav/consilier.html");
+        else if (cod === 1)
+            $("#nav-placeholder").load("assets/nav/mecanic.html");
     });
 </script>
 
 <div id="prod">
+    <label>Logat cu <%=session.getAttribute("user")%></label>
+    <a href="${pageContext.request.contextPath}/logout">Logout</a>
+    <% if (codLog != 1) {%>
     <form method="post" action="${pageContext.request.contextPath}/service" autocomplete="off">
-        <label>Logat cu <%=session.getAttribute("user")%></label>
-        <a href="${pageContext.request.contextPath}/logout">Logout</a>
 
         <%
             try
@@ -98,13 +128,16 @@
         <input name="garantie" id="garantie" type="checkbox" value="Garantie">
         <label for="garantie">Garantie</label>
 
+        <% if (codLog != 6 && codLog !=1) {%>
         <div class="link">
             <a class="edit" onclick="exportToExcel('table', 'Service')"><img src="${pageContext.request.contextPath}/assets/img/excel.png" alt="Export Excel" title="Export Excel"></a>
             <a class="edit" onclick="exportToPDF('#table', 'Service')"><img src="${pageContext.request.contextPath}/assets/img/pdf.png" alt="Export PDF" title="Export PDF"></a>
         </div>
+        <% } %>
 
         <input name="adauga" type="submit" value="Adauga">
     </form>
+    <% } %>
     <input type='text' id='searchTable' placeholder='Cautare'>
 </div>
 
@@ -156,10 +189,14 @@
         <td><%= rs.getString(12)%></td>
         <td><%= rs.getString(13)%></td>
 
+        <% if (codLog != 7) {%>
         <td class="link">
             <a id="edit" href="${pageContext.request.contextPath}/edit/editService.jsp?cods=<%= rs.getString(1)%>">Editeaza</a>
-            <a id="delete" href="${pageContext.request.contextPath}/service?action=delete&cods=<%= rs.getString(1)%>" methods="">Sterge</a>
+            <% if (codLog != 1) {%>
+                <a id="delete" href="${pageContext.request.contextPath}/service?action=delete&cods=<%= rs.getString(1)%>" methods="">Sterge</a>
+            <% } %>
         </td>
+        <% } %>
     </tr>
 
     <%} while(rs.next());

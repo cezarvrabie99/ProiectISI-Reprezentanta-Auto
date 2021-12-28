@@ -1,8 +1,6 @@
 package com.example.proiectisi.controller;
 
-import com.example.proiectisi.dao.ClientiDAO;
 import com.example.proiectisi.dao.ServiceDAO;
-import com.example.proiectisi.model.ClientiModel;
 import com.example.proiectisi.model.ServiceModel;
 
 import javax.servlet.*;
@@ -12,7 +10,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
 
-@WebServlet(name = "ServiceServlet", value = "/ServiceServlet")
+@WebServlet(name = "service", value = "/service")
 public class ServiceServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private ServiceDAO serviceDAO;
@@ -40,7 +38,7 @@ public class ServiceServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String codc = request.getParameter("codc");
         String numec = request.getParameter("numec");
         String prenumec = request.getParameter("prenumec");

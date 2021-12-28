@@ -2,7 +2,10 @@
 <%@ page import="com.example.proiectisi.SqlConnection" %>
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
-<%@ page import="java.util.Objects" %><%--
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Arrays" %><%--
   Created by IntelliJ IDEA.
   User: cezar
   Date: 12/19/2021
@@ -17,9 +20,28 @@
 </head>
 <body>
 <%
-if (!Objects.equals(session.getAttribute("user"), "manager")) {
-    response.sendRedirect("index.jsp");
-}
+    String currentUser = (String) session.getAttribute("user");
+    int codLog = -1;
+    try {
+        Connection connection = SqlConnection.getInstance().getConnection();
+        String sql = "select codf from utilizatori where username = ?;";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setString(1, currentUser);
+        ResultSet rs = stmt.executeQuery();
+
+        if(!rs.next())
+            System.out.println("No Records in the table");
+        else
+            codLog = rs.getInt(1);
+
+    } catch (ClassNotFoundException | SQLException e) {
+        e.printStackTrace();
+    }
+
+    List<Integer> allowed = new ArrayList<>(Arrays.asList(4, 6, 7, 1));
+
+    if (!allowed.contains(codLog))
+        response.sendRedirect("index.jsp");
 %>
 
 <div id="nav-placeholder">
@@ -28,7 +50,13 @@ if (!Objects.equals(session.getAttribute("user"), "manager")) {
 
 <script>
     $(function(){
-        $("#nav-placeholder").load("assets/nav/manager.html");
+        const cod = <%=codLog %>;
+        if (cod === 4)
+            $("#nav-placeholder").load("assets/nav/manager.html");
+        else if (cod === 6 || cod === 7)
+            $("#nav-placeholder").load("assets/nav/consilier.html");
+        else if (cod === 1)
+            $("#nav-placeholder").load("assets/nav/mecanic.html");
     });
 </script>
 
@@ -51,10 +79,12 @@ if (!Objects.equals(session.getAttribute("user"), "manager")) {
         }
     </script>
 
-    <div class="link">
-        <a class="edit" onclick="exportToExcel('table', 'Piese')"><img src="${pageContext.request.contextPath}/assets/img/excel.png" alt="Export Excel" title="Export Excel"></a>
-        <a class="edit" onclick="exportToPDF('#table', 'Piese')"><img src="${pageContext.request.contextPath}/assets/img/pdf.png" alt="Export PDF" title="Export PDF"></a>
-    </div>
+    <% if (codLog != 6 && codLog !=1) {%>
+        <div class="link">
+            <a class="edit" onclick="exportToExcel('table', 'Piese')"><img src="${pageContext.request.contextPath}/assets/img/excel.png" alt="Export Excel" title="Export Excel"></a>
+            <a class="edit" onclick="exportToPDF('#table', 'Piese')"><img src="${pageContext.request.contextPath}/assets/img/pdf.png" alt="Export PDF" title="Export PDF"></a>
+        </div>
+    <% } %>
 
     <input name="adauga" type="submit" value="Adauga">
 </form>
@@ -91,10 +121,13 @@ if (!Objects.equals(session.getAttribute("user"), "manager")) {
             <td><%= rs.getDouble(3)%></td>
             <td><%= rs.getDouble(4)%></td>
 
+            <% if (codLog != 7 && codLog !=1) {%>
             <td class="link">
                 <a id="edit" href="${pageContext.request.contextPath}/edit/editPiese.jsp?codp=<%= rs.getString(1)%>">Editeaza</a>
                 <a id="delete" href="${pageContext.request.contextPath}/piese?action=delete&codp=<%= rs.getString(1)%>" methods="">Sterge</a>
             </td>
+            <% } %>
+
         </tr>
 
         <%} while(rs.next());
