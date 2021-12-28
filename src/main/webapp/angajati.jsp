@@ -42,6 +42,17 @@
     if (codLog != 4)
         response.sendRedirect("index.jsp");
 %>
+
+<div id="nav-placeholder">
+
+</div>
+
+<script>
+    $(function(){
+        $("#nav-placeholder").load("assets/nav/manager.html");
+    });
+</script>
+
 <div id="prod">
     <form method="post" action="${pageContext.request.contextPath}/angajati" autocomplete="off">
         <label>Logat cu <%=session.getAttribute("user")%></label>
