@@ -23,6 +23,8 @@
 %>
 <div id="prod">
     <form method="post" action="${pageContext.request.contextPath}/clienti" autocomplete="off">
+        <label>Logat cu <%=session.getAttribute("user")%></label>
+        <a href="${pageContext.request.contextPath}/logout">Logout</a>
         <input name="numec" type="text" placeholder="Nume">
         <input name="prenumec" type="text" placeholder="Prenume">
         <input name="cnp" type="text" placeholder="CNP">

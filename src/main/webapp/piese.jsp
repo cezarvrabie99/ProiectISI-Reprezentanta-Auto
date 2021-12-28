@@ -39,10 +39,12 @@ if (!Objects.equals(session.getAttribute("user"), "manager")) {
             }
         }
     </script>
+
     <div class="link">
         <a class="edit" onclick="exportToExcel('table', 'Piese')"><img src="${pageContext.request.contextPath}/assets/img/excel.png" alt="Export Excel" title="Export Excel"></a>
         <a class="edit" onclick="exportToPDF('#table', 'Piese')"><img src="${pageContext.request.contextPath}/assets/img/pdf.png" alt="Export PDF" title="Export PDF"></a>
     </div>
+
     <input name="adauga" type="submit" value="Adauga">
 </form>
 <input type='text' id='searchTable' placeholder='Cautare'>
