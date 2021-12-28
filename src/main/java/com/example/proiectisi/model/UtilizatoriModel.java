@@ -6,6 +6,17 @@ public class UtilizatoriModel implements Serializable {
     private static final long serialVersionUID = 1L;
     private String username;
     private String password;
+    private String codf;
+
+    public UtilizatoriModel(String username, String password, String codf) {
+        this.username = username;
+        this.password = password;
+        this.codf = codf;
+    }
+
+    public UtilizatoriModel() {
+
+    }
 
     public String getUsername() {
         return username;
@@ -21,5 +32,13 @@ public class UtilizatoriModel implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getCodf() {
+        return codf;
+    }
+
+    public void setCodf(String codf) {
+        this.codf = codf;
     }
 }

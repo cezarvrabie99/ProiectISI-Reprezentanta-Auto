@@ -22,7 +22,11 @@ public class LoginServlet extends HttpServlet {
     }
 
     public void init() {
-        utilizatoriDAO = new UtilizatoriDAO();
+        try {
+            utilizatoriDAO = new UtilizatoriDAO();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
