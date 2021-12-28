@@ -82,7 +82,7 @@ public class AutoServlet extends HttpServlet {
 
         if (Objects.equals(request.getParameter("action"), "edit")){
             try {
-                if (autoDAO.update(autoModel, request.getParameter("vin"), user)) {
+                if (autoDAO.update(autoModel, user)) {
                     response.sendRedirect("auto.jsp");
                 } else {
                     response.sendRedirect("index.jsp");

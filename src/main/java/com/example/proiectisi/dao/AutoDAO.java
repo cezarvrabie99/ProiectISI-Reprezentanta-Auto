@@ -44,7 +44,7 @@ public class AutoDAO {
         return status;
     }
 
-    public boolean update(AutoModel autoModel, String vin, Object user) throws ClassNotFoundException, SQLException {
+    public boolean update(AutoModel autoModel, Object user) throws ClassNotFoundException, SQLException {
         boolean status = true;
         PreparedStatement preparedStatement = connection
                 .prepareStatement("UPDATE autoturism SET model = ?, versiune = ?, culoare = ?, \n" +

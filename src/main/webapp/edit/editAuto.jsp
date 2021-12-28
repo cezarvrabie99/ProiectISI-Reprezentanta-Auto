@@ -58,7 +58,7 @@
 
         String[] tempVersion, tempWheels, tempInterior;
 
-        String vin, model, versiune, culoare, jante, interior, autopilot, data_fab, nr_usi, tractiune, baterie,
+        String model, versiune, culoare, jante, interior, autopilot, data_fab, nr_usi, tractiune, baterie,
                 preta, pretatva, stoc;
         try {
             Connection connection = SqlConnection.getInstance().getConnection();
@@ -69,7 +69,6 @@
             if (!rs.next())
                 System.out.println("No Records in the table");
             else {
-                vin = rs.getString(1);
                 model = rs.getString(2);
                 versiune = rs.getString(3);
                 culoare = rs.getString(4);
@@ -111,7 +110,6 @@
                     if (Objects.equals(model, "Model Y"))
                         tempWheels = new String[]{"21'' Black"};
                 }
-
     %>
     <input name="vin" type="hidden" value="${param.vin}">
 
