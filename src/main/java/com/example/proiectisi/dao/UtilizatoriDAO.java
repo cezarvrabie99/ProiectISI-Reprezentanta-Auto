@@ -20,7 +20,7 @@ public class UtilizatoriDAO {
         boolean status;
 
          PreparedStatement preparedStatement = connection
-                 .prepareStatement("select * from utilizatori where username = ? and password = ? ");
+                 .prepareStatement("SELECT * FROM utilizatori WHERE username = ? AND password = ?;");
         preparedStatement.setString(1, utilizatoriModel.getUsername());
         preparedStatement.setString(2, utilizatoriModel.getPassword());
 

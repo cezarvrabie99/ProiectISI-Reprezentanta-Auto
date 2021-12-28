@@ -1,5 +1,6 @@
 package com.example.proiectisi.controller;
 
+import com.example.proiectisi.dao.LogsDAO;
 import com.example.proiectisi.dao.UtilizatoriDAO;
 import com.example.proiectisi.model.UtilizatoriModel;
 
@@ -15,6 +16,10 @@ import java.sql.SQLException;
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private UtilizatoriDAO utilizatoriDAO;
+    LogsDAO logsDAO = new LogsDAO();
+
+    public LoginServlet() throws SQLException, ClassNotFoundException {
+    }
 
     public void init() {
         utilizatoriDAO = new UtilizatoriDAO();
@@ -36,6 +41,7 @@ public class LoginServlet extends HttpServlet {
             if (utilizatoriDAO.validate(utilizatoriModel)) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
+                logsDAO.logsConnect(session.getAttribute("user"), true, session.getId());
                 response.sendRedirect("piese.jsp");
             } else {
                 response.sendRedirect("index.jsp");

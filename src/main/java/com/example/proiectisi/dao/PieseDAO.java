@@ -7,11 +7,12 @@ import java.sql.*;
 
 public class PieseDAO {
     Connection connection = SqlConnection.getInstance().getConnection();
+    LogsDAO logsDAO = new LogsDAO();
 
     public PieseDAO() throws SQLException, ClassNotFoundException {
     }
 
-    public boolean insert(PieseModel pieseModel) throws ClassNotFoundException, SQLException {
+    public boolean insert(PieseModel pieseModel, Object user) throws ClassNotFoundException, SQLException {
         boolean status = true;
          PreparedStatement preparedStatement = connection
                  .prepareStatement("INSERT INTO piese(codp, denp, pretp, pretptva) VALUES (?, ?, ?, ?);");
@@ -24,10 +25,12 @@ public class PieseDAO {
         if (preparedStatement.execute())
             return true;
 
+        logsDAO.logs(user, preparedStatement.toString());
+
         return status;
     }
 
-    public boolean update(PieseModel pieseModel) throws ClassNotFoundException, SQLException {
+    public boolean update(PieseModel pieseModel, Object user) throws ClassNotFoundException, SQLException {
         boolean status = true;
         PreparedStatement preparedStatement = connection
                 .prepareStatement("UPDATE piese SET denp = ?, pretp = ?, pretptva = ? WHERE codp = ?;");
@@ -40,13 +43,17 @@ public class PieseDAO {
         if (preparedStatement.execute())
             return true;
 
+        logsDAO.logs(user, preparedStatement.toString());
+
         return status;
     }
 
-    public void delete(String codp) throws SQLException {
+    public void delete(String codp, Object user) throws SQLException {
         PreparedStatement preparedStatement = connection
                 .prepareStatement("DELETE FROM piese where codp = ?;");
         preparedStatement.setString(1, codp);
         preparedStatement.execute();
+
+        logsDAO.logs(user, preparedStatement.toString());
     }
 }

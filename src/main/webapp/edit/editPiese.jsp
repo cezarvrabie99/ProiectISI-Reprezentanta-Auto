@@ -1,7 +1,8 @@
 <%@ page import="java.sql.Connection" %>
 <%@ page import="com.example.proiectisi.SqlConnection" %>
 <%@ page import="java.sql.PreparedStatement" %>
-<%@ page import="java.sql.ResultSet" %><%--
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.util.Objects" %><%--
   Created by IntelliJ IDEA.
   User: cezar
   Date: 12/23/2021
@@ -9,14 +10,18 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@include file="../headMin.html"%>
 <html>
 <head>
     <title>Edit</title>
-    <link rel="icon" href="${pageContext.request.contextPath}/assets/img/tesla_icon.png">
-    <meta charset="UTF-8">
-    <link href="${pageContext.request.contextPath}/assets/style/styles.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+<%
+    if (!Objects.equals(session.getAttribute("user"), "manager") ||
+            request.getParameter("codp") == null) {
+        response.sendRedirect("../index.jsp");
+    }
+%>
 <form id="prod" method="post" action="${pageContext.request.contextPath}/piese" autocomplete="off">
     <p>Cod piesa: ${param.codp}</p>
     <%

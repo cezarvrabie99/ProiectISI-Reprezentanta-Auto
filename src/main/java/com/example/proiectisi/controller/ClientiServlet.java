@@ -1,12 +1,13 @@
 package com.example.proiectisi.controller;
 
 import com.example.proiectisi.dao.ClientiDAO;
-import com.example.proiectisi.model.AngajatiModel;
 import com.example.proiectisi.model.ClientiModel;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
@@ -24,10 +25,13 @@ public class ClientiServlet extends HttpServlet {
         }
     }
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        Object user = session.getAttribute("user");
+
         if (Objects.equals(request.getParameter("action"), "delete")){
             try {
-                clientiDAO.delete(request.getParameter("codc"));
+                clientiDAO.delete(request.getParameter("codc"), user);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -36,7 +40,7 @@ public class ClientiServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String numec = request.getParameter("numec");
         String prenumec = request.getParameter("prenumec");
         String cnp = request.getParameter("cnp");
@@ -58,9 +62,12 @@ public class ClientiServlet extends HttpServlet {
         clientiModel.setJudet(judet);
         clientiModel.setTara(tara);
 
+        HttpSession session = request.getSession();
+        Object user = session.getAttribute("user");
+
         if (Objects.equals(request.getParameter("action"), "edit")){
             try {
-                if (clientiDAO.update(clientiModel, request.getParameter("codc"))) {
+                if (clientiDAO.update(clientiModel, request.getParameter("codc"), user)) {
                     response.sendRedirect("clienti.jsp");
                 } else {
                     response.sendRedirect("index.jsp");
@@ -70,7 +77,7 @@ public class ClientiServlet extends HttpServlet {
             }
         } else {
             try {
-                if (clientiDAO.insert(clientiModel)) {
+                if (clientiDAO.insert(clientiModel, user)) {
                     response.sendRedirect("clienti.jsp");
                 } else {
                     response.sendRedirect("index.jsp");

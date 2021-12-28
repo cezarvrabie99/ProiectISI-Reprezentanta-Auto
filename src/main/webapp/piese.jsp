@@ -10,18 +10,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@include file="head.html"%>
 <html>
 <head>
     <title>Piese</title>
-    <link rel="icon" href="${pageContext.request.contextPath}/assets/img/tesla_icon.png">
-    <meta charset="UTF-8">
-    <link href="${pageContext.request.contextPath}/assets/style/styles.css" rel="stylesheet" type="text/css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/js/searchTable.js" type="text/javascript"></script>
-    <script src="${pageContext.request.contextPath}/assets/js/exportToExcel.js" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/js/exportToPDF.js" type="text/javascript"></script>
 </head>
 <body>
 <%
@@ -48,7 +40,7 @@ if (!Objects.equals(session.getAttribute("user"), "manager")) {
         }
     </script>
     <div class="link">
-        <a class="edit" onclick="exportToExcel('table', 'piese')"><img src="${pageContext.request.contextPath}/assets/img/excel.png" alt="Export Excel" title="Export Excel"></a>
+        <a class="edit" onclick="exportToExcel('table', 'Piese')"><img src="${pageContext.request.contextPath}/assets/img/excel.png" alt="Export Excel" title="Export Excel"></a>
         <a class="edit" onclick="exportToPDF('#table', 'Piese')"><img src="${pageContext.request.contextPath}/assets/img/pdf.png" alt="Export PDF" title="Export PDF"></a>
     </div>
     <input name="adauga" type="submit" value="Adauga">
@@ -102,6 +94,9 @@ if (!Objects.equals(session.getAttribute("user"), "manager")) {
             e.getStackTrace();
         }
         %>
+        <tr class='notFound' hidden>
+            <td colspan='4'>Nu s-au gasit inregistrari!</td>
+        </tr>
     </tbody>
 </table>
 

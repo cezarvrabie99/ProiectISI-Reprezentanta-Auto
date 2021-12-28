@@ -1,7 +1,8 @@
 <%@ page import="java.sql.Connection" %>
 <%@ page import="com.example.proiectisi.SqlConnection" %>
 <%@ page import="java.sql.PreparedStatement" %>
-<%@ page import="java.sql.ResultSet" %><%--
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.util.Objects" %><%--
   Created by IntelliJ IDEA.
   User: cezar
   Date: 12/28/2021
@@ -9,20 +10,17 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@include file="head.html"%>
 <html>
 <head>
-    <title>Angajati</title>
-    <link rel="icon" href="${pageContext.request.contextPath}/assets/img/tesla_icon.png">
-    <meta charset="UTF-8">
-    <link href="${pageContext.request.contextPath}/assets/style/styles.css" rel="stylesheet" type="text/css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/js/searchTable.js" type="text/javascript"></script>
-    <script src="${pageContext.request.contextPath}/assets/js/exportToExcel.js" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/js/exportToPDF.js" type="text/javascript"></script>
+    <title>Clienti</title>
 </head>
 <body>
+<%
+    if (!Objects.equals(session.getAttribute("user"), "manager")) {
+        response.sendRedirect("index.jsp");
+    }
+%>
 <div id="prod">
     <form method="post" action="${pageContext.request.contextPath}/clienti" autocomplete="off">
         <input name="numec" type="text" placeholder="Nume">
@@ -96,6 +94,9 @@
         System.out.println(e.getMessage());
         e.getStackTrace();
     } %>
+    <tr class='notFound' hidden>
+        <td colspan='10'>Nu s-au gasit inregistrari!</td>
+    </tr>
     </tbody>
 </table>
 

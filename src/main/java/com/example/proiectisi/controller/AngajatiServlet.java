@@ -3,7 +3,6 @@ package com.example.proiectisi.controller;
 import com.example.proiectisi.dao.AngajatiDAO;
 import com.example.proiectisi.model.AngajatiModel;
 
-import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
@@ -24,10 +23,13 @@ public class AngajatiServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        Object user = session.getAttribute("user");
+
         if (Objects.equals(request.getParameter("action"), "delete")){
             try {
-                angajatiDAO.delete(request.getParameter("coda"));
+                angajatiDAO.delete(request.getParameter("coda"), user);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -36,7 +38,7 @@ public class AngajatiServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String numea = request.getParameter("numea");
         String prenumea = request.getParameter("prenumea");
         String cnp = request.getParameter("cnp");
@@ -60,9 +62,12 @@ public class AngajatiServlet extends HttpServlet {
         angajatiModel.setTara(tara);
         angajatiModel.setCodf(codf);
 
+        HttpSession session = request.getSession();
+        Object user = session.getAttribute("user");
+
         if (Objects.equals(request.getParameter("action"), "edit")){
             try {
-                if (angajatiDAO.update(angajatiModel, request.getParameter("coda"))) {
+                if (angajatiDAO.update(angajatiModel, request.getParameter("coda"), user)) {
                     response.sendRedirect("angajati.jsp");
                 } else {
                     response.sendRedirect("index.jsp");
@@ -72,7 +77,7 @@ public class AngajatiServlet extends HttpServlet {
             }
         } else {
             try {
-                if (angajatiDAO.insert(angajatiModel)) {
+                if (angajatiDAO.insert(angajatiModel, user)) {
                     response.sendRedirect("angajati.jsp");
                 } else {
                     response.sendRedirect("index.jsp");

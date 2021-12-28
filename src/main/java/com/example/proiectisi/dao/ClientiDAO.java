@@ -9,11 +9,12 @@ import java.sql.SQLException;
 
 public class ClientiDAO {
     Connection connection = SqlConnection.getInstance().getConnection();
+    LogsDAO logsDAO = new LogsDAO();
 
     public ClientiDAO() throws SQLException, ClassNotFoundException {
     }
 
-    public boolean insert(ClientiModel clientiModel) throws ClassNotFoundException, SQLException {
+    public boolean insert(ClientiModel clientiModel, Object user) throws ClassNotFoundException, SQLException {
         boolean status = true;
         PreparedStatement preparedStatement = connection
                 .prepareStatement("INSERT INTO client(numec, prenumec, cnp, telefonc, emailc, adresac, localitate, \n" +
@@ -32,10 +33,12 @@ public class ClientiDAO {
         if (preparedStatement.execute())
             return true;
 
+        logsDAO.logs(user, preparedStatement.toString());
+
         return status;
     }
 
-    public boolean update(ClientiModel clientiModel, String codc) throws ClassNotFoundException, SQLException {
+    public boolean update(ClientiModel clientiModel, String codc, Object user) throws ClassNotFoundException, SQLException {
         boolean status = true;
         PreparedStatement preparedStatement = connection
                 .prepareStatement("UPDATE client SET numec = ?, prenumec = ?, cnp = ?, \n" +
@@ -56,13 +59,17 @@ public class ClientiDAO {
         if (preparedStatement.execute())
             return true;
 
+        logsDAO.logs(user, preparedStatement.toString());
+
         return status;
     }
 
-    public void delete(String codc) throws SQLException {
+    public void delete(String codc, Object user) throws SQLException {
         PreparedStatement preparedStatement = connection
                 .prepareStatement("DELETE FROM client where codc = ?;");
         preparedStatement.setString(1, codc);
         preparedStatement.execute();
+
+        logsDAO.logs(user, preparedStatement.toString());
     }
 }

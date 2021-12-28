@@ -3,9 +3,11 @@ package com.example.proiectisi.controller;
 import com.example.proiectisi.dao.PieseDAO;
 import com.example.proiectisi.model.PieseModel;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
@@ -24,9 +26,12 @@ public class PieseServlet extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        Object user = session.getAttribute("user");
+
         if (Objects.equals(request.getParameter("action"), "delete")){
             try {
-                pieseDAO.delete(request.getParameter("codp"));
+                pieseDAO.delete(request.getParameter("codp"), user);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -47,9 +52,12 @@ public class PieseServlet extends HttpServlet {
         pieseModel.setPretp(pretp);
         pieseModel.setPretptva(pretptva);
 
+        HttpSession session = request.getSession();
+        Object user = session.getAttribute("user");
+
         if (Objects.equals(request.getParameter("action"), "edit")){
             try {
-                if (pieseDAO.update(pieseModel)) {
+                if (pieseDAO.update(pieseModel, user)) {
                     response.sendRedirect("piese.jsp");
                 } else {
                     response.sendRedirect("index.jsp");
@@ -59,7 +67,7 @@ public class PieseServlet extends HttpServlet {
             }
         } else {
             try {
-                if (pieseDAO.insert(pieseModel)) {
+                if (pieseDAO.insert(pieseModel, user)) {
                     response.sendRedirect("piese.jsp");
                 } else {
                     response.sendRedirect("index.jsp");

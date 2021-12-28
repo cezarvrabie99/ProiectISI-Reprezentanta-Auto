@@ -1,11 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@include file="headMin.html"%>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Log In</title>
-    <link rel="icon" href="${pageContext.request.contextPath}/assets/img/tesla_icon.png">
-    <meta charset="UTF-8">
-    <link href="${pageContext.request.contextPath}/assets/style/styles.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <form id="main" method="post" action="${pageContext.request.contextPath}/login">

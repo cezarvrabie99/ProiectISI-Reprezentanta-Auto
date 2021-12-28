@@ -9,11 +9,12 @@ import java.sql.SQLException;
 
 public class AngajatiDAO {
     Connection connection = SqlConnection.getInstance().getConnection();
+    LogsDAO logsDAO = new LogsDAO();
 
     public AngajatiDAO() throws SQLException, ClassNotFoundException {
     }
 
-    public boolean insert(AngajatiModel angajatiModel) throws ClassNotFoundException, SQLException {
+    public boolean insert(AngajatiModel angajatiModel, Object user) throws ClassNotFoundException, SQLException {
         boolean status = true;
         PreparedStatement preparedStatement = connection
                 .prepareStatement("INSERT INTO angajat(numea, prenumea, cnp, adresaa, telefona, emaila, localitate, \n" +
@@ -33,10 +34,12 @@ public class AngajatiDAO {
         if (preparedStatement.execute())
             return true;
 
+        logsDAO.logs(user, preparedStatement.toString());
+
         return status;
     }
 
-    public boolean update(AngajatiModel angajatiModel, String coda) throws ClassNotFoundException, SQLException {
+    public boolean update(AngajatiModel angajatiModel, String coda, Object user) throws ClassNotFoundException, SQLException {
         boolean status = true;
         PreparedStatement preparedStatement = connection
                 .prepareStatement("UPDATE angajat SET numea = ?, prenumea = ?, cnp = ?, \n" +
@@ -58,13 +61,17 @@ public class AngajatiDAO {
         if (preparedStatement.execute())
             return true;
 
+        logsDAO.logs(user, preparedStatement.toString());
+
         return status;
     }
 
-    public void delete(String coda) throws SQLException {
+    public void delete(String coda, Object user) throws SQLException {
         PreparedStatement preparedStatement = connection
                 .prepareStatement("DELETE FROM angajat where coda = ?;");
         preparedStatement.setString(1, coda);
         preparedStatement.execute();
+
+        logsDAO.logs(user, preparedStatement.toString());
     }
 }
