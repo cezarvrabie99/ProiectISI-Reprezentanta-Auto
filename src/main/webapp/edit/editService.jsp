@@ -1,14 +1,14 @@
 <%@ page import="com.example.proiectisi.dao.UtilizatoriDAO" %>
 <%@ page import="java.sql.SQLException" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="com.example.proiectisi.SqlConnection" %>
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
-<%@ page import="com.example.proiectisi.SqlConnection" %>
-<%@ page import="java.sql.Connection" %>
 <%@ page import="java.util.Objects" %><%--
   Created by IntelliJ IDEA.
   User: cezar
   Date: 12/29/2021
-  Time: 6:48 PM
+  Time: 8:58 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
@@ -26,7 +26,7 @@
         Object userSession = session.getAttribute("user");
         if (userSession != null) {
             codLog = utilizatoriDAO.getCodf(userSession);
-            if (!utilizatoriDAO.isAllowed(codLog, new int[]{4, 6, 7}) && request.getParameter("codv") != null)
+            if (!utilizatoriDAO.isAllowed(codLog, new int[]{4, 6, 7, 1}) && request.getParameter("cods") != null)
                 response.sendRedirect("../index.jsp");
         } else
             response.sendRedirect("../index.jsp");
@@ -35,67 +35,22 @@
     }
 %>
 
-<form id="prod" method="post" action="${pageContext.request.contextPath}/vanzare" autocomplete="off">
-    <p>Cod vanzare: ${param.codv}</p>
+<form id="prod" method="post" action="${pageContext.request.contextPath}/service" autocomplete="off">
+    <p>Cod service: ${param.cods}</p>
 
     <%
-        int codv = 0;
-        String tipprod, codp, vin;
         try {
             Connection connection = SqlConnection.getInstance().getConnection();
-            String sql = "select * from vanzare where codv = ?;";
+            String sql = "select * from service where cods = ?;";
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, request.getParameter("codv"));
+            stmt.setString(1, request.getParameter("cods"));
             ResultSet rs = stmt.executeQuery();
             if (!rs.next())
                 System.out.println("No Records in the table");
             else {
-                codv = rs.getInt(1);
-                tipprod = rs.getString(2);
-                codp = rs.getString(4);
-                vin = rs.getString(5);
     %>
 
-    <input name="codv" type="hidden" value="${param.codv}">
-
-    <select id="comboTip" name="tipprod">
-        <option>Piese</option>
-        <option>Autoturisme</option>
-    </select>
-    <script type='text/javascript'>
-        $('#comboTip').val("<%=tipprod %>");
-    </script>
-
-
-
-    <select id="combocodp" name="codp">
-        <% String prodSQL;
-            if (Objects.equals(tipprod, "Piese"))
-                prodSQL = "select codp from piese;";
-            else
-                prodSQL = "select vin from autoturism where stoc > 0;";
-
-            PreparedStatement preparedStatement = connection.prepareStatement(prodSQL);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (!resultSet.next())
-                System.out.println("No Records in the table");
-            else {
-                do {
-        %>
-        <option value="<%=resultSet.getString(1)%>"><%=resultSet.getString(1)%></option>
-        <%
-                    } while (resultSet.next());
-                }
-            %>
-    </select>
-
-    <script type="text/javascript">
-        $('#combocodp').val('<%= Objects.equals(tipprod, "Piese") ? codp : vin%>');
-    </script>
-
-    <input id="produs" name="prod" type="text" placeholder="Produs" value="<%=rs.getString(3)%>" readonly>
-    <input name="pret" id="pret" type="number" placeholder="Pret(fara TVA)" value="<%=rs.getString(6)%>" readonly>
-    <input name="prettva" id="prettva" type="number" placeholder="Pret" value="<%=rs.getString(7)%>" readonly>
+    <input name="cods" type="hidden" value="${param.cods}">
 
     <% try {
         PreparedStatement preparedStatement2 = connection.prepareStatement("select numec from client;");
@@ -116,12 +71,12 @@
     </select>
 
     <script type='text/javascript'>
-        $('#combonumec').val('<%=rs.getString(9) %>');
+        $('#combonumec').val('<%=rs.getString(3) %>');
     </script>
 
     <% try {
         PreparedStatement preparedStatement3 = connection.prepareStatement("select prenumec from client WHERE numec = ?;");
-        preparedStatement3.setString(1, rs.getString(9));
+        preparedStatement3.setString(1, rs.getString(3));
         ResultSet resultSet3 = preparedStatement3.executeQuery();
         if(!resultSet3.next())
             System.out.println("No Records in the table");
@@ -139,8 +94,48 @@
     </select>
 
     <script type='text/javascript'>
-        $('#comboprenumec').val('<%=rs.getString(10) %>');
+        $('#comboprenumec').val('<%=rs.getString(4) %>');
     </script>
+
+    <input id="vin" name="vin" type="text" placeholder="VIN" value="<%=rs.getString(5)%>">
+
+    <select id="combocodp" name="codp">
+        <%
+            PreparedStatement preparedStatement = connection.prepareStatement("select codp from piese;");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (!resultSet.next())
+                System.out.println("No Records in the table");
+            else {
+                do {
+        %>
+        <option value="<%=resultSet.getString(1)%>"><%=resultSet.getString(1)%></option>
+        <%
+                } while (resultSet.next());
+            }
+        %>
+    </select>
+
+    <script type="text/javascript">
+        $('#combocodp').val('<%= rs.getString(7)%>');
+    </script>
+
+    <input id="produs" name="prod" type="text" placeholder="Produs" value="<%=rs.getString(8)%>" readonly>
+
+    <select id="status" name="status">
+        <option>In asteptare</option>
+        <option>In reparatie</option>
+        <option>Finalizata</option>
+        <option>Ridicata</option>
+    </select>
+    <script type="text/javascript">
+        $("#status").val('<%=rs.getString(10)%>')
+    </script>
+
+    <% if (Objects.equals(rs.getString(11), "1")) {%>
+    <input name="garantie" id="garantie" type="checkbox" value="Garantie" checked>
+    <%} else {%>
+    <input name="garantie" id="garantie" type="checkbox" value="Garantie">
+    <% } %>
 
     <%}
     } catch (Exception e) {
@@ -148,6 +143,7 @@
         e.getStackTrace();
     }
     %>
+
 
     <input name="action" value="edit" type="hidden">
     <input name="act" type="submit" value="Actualizeaza">

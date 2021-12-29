@@ -111,11 +111,12 @@
 
     <hr>
 
+    <% if (codLog != 6) {%>
     <div class="link">
         <a class="edit" onclick="exportToExcel('table', 'Vanzare')"><img src="${pageContext.request.contextPath}/assets/img/excel.png" alt="Export Excel" title="Export Excel"></a>
         <a class="edit" onclick="exportToPDF('#table', 'Vanzare')"><img src="${pageContext.request.contextPath}/assets/img/pdf.png" alt="Export PDF" title="Export PDF"></a>
     </div>
-
+    <% } %>
     <hr>
 
     <input type='text' id='searchTable' placeholder='Cautare'>
@@ -169,10 +170,12 @@
         <td><%= rs.getString(12)%></td>
         <td><%= rs.getString(13)%></td>
 
+        <% if (codLog != 7) {%>
         <td class="link">
             <a id="edit" href="${pageContext.request.contextPath}/edit/editVanzare.jsp?codv=<%= rs.getString(1)%>">Editeaza</a>
             <a id="delete" href="${pageContext.request.contextPath}/vanzare?action=delete&codv=<%= rs.getString(1)%>" methods="">Sterge</a>
         </td>
+        <% } %>
     </tr>
 
     <%} while(rs.next());
