@@ -44,7 +44,7 @@ td, th {
 .login input, #prod input, #prod select {
     box-sizing: border-box;
     display: block;
-    width: 100%;
+    width: 90%;
     border-width: 1px;
     border-style: solid;
     padding: 16px;
@@ -124,4 +124,21 @@ td, th {
     display: block;
     margin: 0 auto;
     text-align: center;
+}
+
+.input {
+    display: flex;
+}
+
+.input label {
+    display: flex;
+    align-items: center;
+}
+
+.d {
+    display: flex!important;
+}
+
+.dnone {
+    display: none!important;
 }

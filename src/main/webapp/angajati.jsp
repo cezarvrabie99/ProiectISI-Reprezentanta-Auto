@@ -44,18 +44,63 @@
 </script>
 
 <div id="prod">
-    <form method="post" action="${pageContext.request.contextPath}/angajati" autocomplete="off">
+    <form id="form" method="post" action="${pageContext.request.contextPath}/angajati" onsubmit="return validation()" autocomplete="off">
         <label>Logat cu <%=session.getAttribute("user")%></label>
         <a href="${pageContext.request.contextPath}/logout">Logout</a>
-        <input name="numea" type="text" placeholder="Nume">
-        <input name="prenumea" type="text" placeholder="Prenume">
-        <input name="cnp" type="text" placeholder="CNP">
-        <input name="adresaa" type="text" placeholder="Adresa">
-        <input name="telefona" type="text" placeholder="Nr. de telefon">
-        <input name="emaila" type="text" placeholder="Email">
-        <input name="localitate" type="text" placeholder="Localitate">
-        <input name="judet" type="text" placeholder="Judet">
-        <input name="tara" type="text" placeholder="Tara">
+        <div class="input">
+            <input name="numea" type="text" placeholder="Nume">
+            <label id="numea1" class="dnone">✓</label>
+            <label id="numea0" class="dnone">✖</label>
+        </div>
+
+        <div class="input">
+            <input name="prenumea" type="text" placeholder="Prenume">
+            <label id="prenumea1" class="dnone">✓</label>
+            <label id="prenumea0" class="dnone">✖</label>
+        </div>
+
+        <div class="input">
+            <input name="cnp" type="text" placeholder="CNP">
+            <label id="cnp1" class="dnone">✓</label>
+            <label id="cnp0" class="dnone">✖</label>
+        </div>
+
+        <div class="input">
+            <input name="adresaa" type="text" placeholder="Adresa">
+            <label id="adresaa1" class="dnone">✓</label>
+            <label id="adresaa0" class="dnone">✖</label>
+        </div>
+
+        <div class="input">
+            <input name="telefona" type="text" placeholder="Nr. de telefon">
+            <label id="telefona1" class="dnone">✓</label>
+            <label id="telefona0" class="dnone">✖</label>
+        </div>
+
+        <div class="input">
+            <input name="emaila" type="text" placeholder="Email">
+            <label id="emaila1" class="dnone">✓</label>
+            <label id="emaila0" class="dnone">✖</label>
+        </div>
+
+        <div class="input">
+            <input name="localitate" type="text" placeholder="Localitate">
+            <label id="localitate1" class="dnone">✓</label>
+            <label id="localitate0" class="dnone">✖</label>
+        </div>
+
+        <div class="input">
+            <input name="judet" type="text" placeholder="Judet">
+            <label id="judet1" class="dnone">✓</label>
+            <label id="judet0" class="dnone">✖</label>
+        </div>
+
+        <div class="input">
+            <input name="tara" type="text" placeholder="Tara">
+            <label id="tara1" class="dnone">✓</label>
+            <label id="tara0" class="dnone">✖</label>
+        </div>
+
         <%
             try
             {
