@@ -1,7 +1,6 @@
 package com.example.proiectisi.dao;
 
 import com.example.proiectisi.SqlConnection;
-import com.example.proiectisi.model.PieseModel;
 import com.example.proiectisi.model.UtilizatoriModel;
 
 import java.sql.*;
@@ -69,5 +68,28 @@ public class UtilizatoriDAO {
         preparedStatement.execute();
 
         logsDAO.logs(user, preparedStatement.toString());
+    }
+
+    public int getCodf(Object userObject) throws SQLException {
+        String user = userObject.toString();
+        int codLog = -1;
+        PreparedStatement preparedStatement = connection
+                .prepareStatement("SELECT codf FROM utilizatori WHERE username = ?");
+        preparedStatement.setString(1, user);
+        ResultSet rs = preparedStatement.executeQuery();
+
+        if(!rs.next())
+            System.out.println("No Records in the table");
+        else
+            codLog = rs.getInt(1);
+
+        return codLog;
+    }
+
+    public boolean isAllowed(int codLog, int[] allowed) {
+        for (int j : allowed)
+            if (j == codLog)
+                return true;
+        return false;
     }
 }

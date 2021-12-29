@@ -46,7 +46,15 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
                 logsDAO.logsConnect(session.getAttribute("user"), true, session.getId());
-                response.sendRedirect("piese.jsp");
+                int codf = utilizatoriDAO.getCodf(user);
+                if (codf == 4)
+                    response.sendRedirect("angajati.jsp");
+                else if (codf == 6 || codf == 7)
+                    response.sendRedirect("auto.jsp");
+                else if (codf == 1)
+                    response.sendRedirect("piese.jsp");
+                else
+                    response.sendRedirect("error.jsp");
             } else {
                 response.sendRedirect("index.jsp");
             }

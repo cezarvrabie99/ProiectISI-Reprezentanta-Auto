@@ -2,7 +2,8 @@
 <%@ page import="com.example.proiectisi.SqlConnection" %>
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
-<%@ page import="java.sql.SQLException" %><%--
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="com.example.proiectisi.dao.UtilizatoriDAO" %><%--
   Created by IntelliJ IDEA.
   User: cezar
   Date: 12/28/2021
@@ -17,26 +18,19 @@
 </head>
 <body>
 <%
-    String currentUser = (String) session.getAttribute("user");
-    int codLog = -1;
+    int codLog;
     try {
-        Connection connection = SqlConnection.getInstance().getConnection();
-        String sql = "select codf from utilizatori where username = ?;";
-        PreparedStatement stmt = connection.prepareStatement(sql);
-        stmt.setString(1, currentUser);
-        ResultSet rs = stmt.executeQuery();
-
-        if(!rs.next())
-            System.out.println("No Records in the table");
-        else
-            codLog = rs.getInt(1);
-
-    } catch (ClassNotFoundException | SQLException e) {
+        UtilizatoriDAO utilizatoriDAO = new UtilizatoriDAO();
+        Object userSession = session.getAttribute("user");
+        if (userSession != null && request.getParameter("codf") != null) {
+            codLog = utilizatoriDAO.getCodf(userSession);
+            if (codLog != 4)
+                response.sendRedirect("index.jsp");
+        } else
+            response.sendRedirect("index.jsp");
+    } catch (SQLException | ClassNotFoundException e) {
         e.printStackTrace();
     }
-
-    if (codLog != 4 || request.getParameter("codf") == null)
-        response.sendRedirect("index.jsp");
 %>
 
 <form id="prod" method="post" action="${pageContext.request.contextPath}/functii" autocomplete="off">
