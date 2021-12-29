@@ -39,15 +39,18 @@ public class ServiceServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String codc = request.getParameter("codc");
-        String numec = request.getParameter("numec");
-        String prenumec = request.getParameter("prenumec");
+
+        HttpSession session = request.getSession();
+        Object user = session.getAttribute("user");
+
+        String numec = request.getParameter("conbon");
+        String prenumec = request.getParameter("conbop");
         String vin = request.getParameter("vin");
         String model = request.getParameter("model");
         String codp = request.getParameter("codp");
-        String denp = request.getParameter("denp");
-        String angajat = request.getParameter("angajat");
-        String stare = request.getParameter("stare");
+        String denp = request.getParameter("prod");
+        String angajat = (String) user;
+        String stare = request.getParameter("status");
         String garantie;
         if (Objects.equals(request.getParameter("garantie"), "Garantie"))
             garantie = "1";
@@ -55,7 +58,6 @@ public class ServiceServlet extends HttpServlet {
             garantie = "0";
 
         ServiceModel serviceModel = new ServiceModel();
-        serviceModel.setCodc(codc);
         serviceModel.setNumec(numec);
         serviceModel.setPrenumec(prenumec);
         serviceModel.setVin(vin);
@@ -65,9 +67,6 @@ public class ServiceServlet extends HttpServlet {
         serviceModel.setAngajat(angajat);
         serviceModel.setStare(stare);
         serviceModel.setGarantie(garantie);
-
-        HttpSession session = request.getSession();
-        Object user = session.getAttribute("user");
 
         if (Objects.equals(request.getParameter("action"), "edit")){
             try {

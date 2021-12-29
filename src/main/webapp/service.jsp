@@ -84,9 +84,7 @@
         </select>
         <input id="vin" name="vin" type="text" placeholder="VIN">
 
-        <%
-            try
-            {
+        <% try {
                 Connection connection = SqlConnection.getInstance().getConnection();
                 String sql = "select codp from piese;";
                 PreparedStatement stmt = connection.prepareStatement(sql);
@@ -107,7 +105,7 @@
                 } %>
         </select>
 
-        <input id="produs" name="prod" type="text" placeholder="Produs" value="<?php echo selectFrom('select denp from piese;', 1)?>" readonly>
+        <input id="produs" name="prod" type="text" placeholder="Produs" value="Selecteaza Piesa" readonly>
         <select id="status" name="status">
             <option>In asteptare</option>
             <option>In reparatie</option>

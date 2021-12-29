@@ -5,6 +5,7 @@ import com.example.proiectisi.model.VanzareModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
@@ -19,22 +20,19 @@ public class VanzareDAO {
         boolean status = true;
         String sql;
         if (Objects.equals(vanzareModel.getTipprod(), "Piese"))
-            sql = "INSERT INTO piese(tipprod, prod, codp, vin, pret, prettva, codc, numec, prenumec, angajat, datav, orav) " +
+            sql = "INSERT INTO vanzare(tipprod, prod, codp, vin, pret, prettva, codc, numec, prenumec, angajat, datav, orav) " +
                     "VALUES (?, ?, ?, null, ?, ?, ?, ?, ?, ?, CURRENT_DATE , CURRENT_TIME);";
         else
-            sql = "INSERT INTO piese(tipprod, prod, codp, vin, pret, prettva, codc, numec, prenumec, angajat, datav, orav) " +
+            sql = "INSERT INTO vanzare(tipprod, prod, codp, vin, pret, prettva, codc, numec, prenumec, angajat, datav, orav) " +
                     "VALUES (?, ?, null, ?, ?, ?, ?, ?, ?, ?, CURRENT_DATE , CURRENT_TIME);";
 
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, vanzareModel.getTipprod());
         preparedStatement.setString(2, vanzareModel.getProd());
-        if (Objects.equals(vanzareModel.getTipprod(), "Piese"))
-            preparedStatement.setString(3, vanzareModel.getCodp());
-        else
-            preparedStatement.setString(3, vanzareModel.getVin());
+        preparedStatement.setString(3, vanzareModel.getCodp());
         preparedStatement.setString(4, vanzareModel.getPret());
         preparedStatement.setString(5, vanzareModel.getPrettva());
-        preparedStatement.setString(6, vanzareModel.getCodc());
+        preparedStatement.setInt(6, getCodc(vanzareModel.getNumec(), vanzareModel.getPrenumec()));
         preparedStatement.setString(7, vanzareModel.getNumec());
         preparedStatement.setString(8, vanzareModel.getPrenumec());
         preparedStatement.setString(9, vanzareModel.getAngajat());
@@ -61,13 +59,10 @@ public class VanzareDAO {
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, vanzareModel.getTipprod());
         preparedStatement.setString(2, vanzareModel.getProd());
-        if (Objects.equals(vanzareModel.getTipprod(), "Piese"))
-            preparedStatement.setString(3, vanzareModel.getCodp());
-        else
-            preparedStatement.setString(3, vanzareModel.getVin());
+        preparedStatement.setString(3, vanzareModel.getCodp());
         preparedStatement.setString(4, vanzareModel.getPret());
         preparedStatement.setString(5, vanzareModel.getPrettva());
-        preparedStatement.setString(6, vanzareModel.getCodc());
+        preparedStatement.setInt(6, getCodc(vanzareModel.getNumec(), vanzareModel.getPrenumec()));
         preparedStatement.setString(7, vanzareModel.getNumec());
         preparedStatement.setString(8, vanzareModel.getPrenumec());
         preparedStatement.setString(9, codv);
@@ -89,4 +84,17 @@ public class VanzareDAO {
 
         logsDAO.logs(user, preparedStatement.toString());
     }
+
+    public int getCodc(String numec, String prenumec) throws SQLException {
+        String query = "SELECT codc FROM client WHERE numec = ? AND prenumec = ?;";
+        PreparedStatement pst = connection.prepareStatement(query);
+        pst.setString(1, numec);
+        pst.setString(2, prenumec);
+        ResultSet rs = pst.executeQuery();
+        if(rs.next())
+            return rs.getInt(1);
+
+        return -1;
+    }
+
 }

@@ -5,6 +5,7 @@ import com.example.proiectisi.model.ServiceModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ServiceDAO {
@@ -17,9 +18,9 @@ public class ServiceDAO {
     public boolean insert(ServiceModel serviceModel, Object user) throws ClassNotFoundException, SQLException {
         boolean status = true;
         PreparedStatement preparedStatement = connection
-                .prepareStatement("INSERT INTO piese(codc, numec, prenumec, vin, model, codp, denp, angajat, stare, " +
+                .prepareStatement("INSERT INTO service(codc, numec, prenumec, vin, model, codp, denp, angajat, stare, " +
                         "garantie, datas, oras) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_DATE , CURRENT_TIME);");
-        preparedStatement.setString(1, serviceModel.getCodc());
+        preparedStatement.setInt(1, getCodc(serviceModel.getNumec(), serviceModel.getPrenumec()));
         preparedStatement.setString(2, serviceModel.getNumec());
         preparedStatement.setString(3, serviceModel.getPrenumec());
         preparedStatement.setString(4, serviceModel.getVin());
@@ -44,7 +45,7 @@ public class ServiceDAO {
         PreparedStatement preparedStatement = connection
                 .prepareStatement("UPDATE service SET codc = ?, numec = ?, prenumec = ?, vin = ?, model = ?, " +
                         "codp = ?, denp = ?, stare = ?, garantie = ? WHERE cods = ?;");
-        preparedStatement.setString(1, serviceModel.getCodc());
+        preparedStatement.setInt(1, getCodc(serviceModel.getNumec(), serviceModel.getPrenumec()));
         preparedStatement.setString(2, serviceModel.getNumec());
         preparedStatement.setString(3, serviceModel.getPrenumec());
         preparedStatement.setString(4, serviceModel.getVin());
@@ -71,5 +72,17 @@ public class ServiceDAO {
         preparedStatement.execute();
 
         logsDAO.logs(user, preparedStatement.toString());
+    }
+
+    public int getCodc(String numec, String prenumec) throws SQLException {
+        String query = "SELECT codc FROM client WHERE numec = ? AND prenumec = ?;";
+        PreparedStatement pst = connection.prepareStatement(query);
+        pst.setString(1, numec);
+        pst.setString(2, prenumec);
+        ResultSet rs = pst.executeQuery();
+        if(rs.next())
+            return rs.getInt(1);
+
+        return -1;
     }
 }

@@ -80,14 +80,13 @@
             ResultSet rs = stmt.executeQuery();
             if (!rs.next())
                 System.out.println("No Records in the table");
-            else {%>
+            else { %>
     <select id="combo" name="functii">
 
         <% do {%>
         <option value="<%=rs.getInt(1)%>"><%=rs.getString(2)%></option>
-        <%
-                    } while (rs.next());
-                }
+        <% } while (rs.next());
+            }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 e.getStackTrace();

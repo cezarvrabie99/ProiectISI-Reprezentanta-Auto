@@ -11,9 +11,12 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@include file="head.html"%>
+
 <html>
 <head>
     <title>Vanzare</title>
+    <script src="${pageContext.request.contextPath}/assets/js/getVanzare.js" type="text/javascript"></script>
 </head>
 <body>
 <%
@@ -47,30 +50,26 @@
 </script>
 
 <div id="prod">
-    <form method="post" action="${pageContext.request.contextPath}/utilizatori" autocomplete="off">
+    <form method="post" action="${pageContext.request.contextPath}/vanzare" autocomplete="off">
         <label>Logat cu <%=session.getAttribute("user")%></label>
         <a href="${pageContext.request.contextPath}/logout">Logout</a>
-        <input name="username" type="text" placeholder="Denumire">
-        <input name="password" id="pass" type="password" placeholder="Parola">
-        <input type="checkbox" id="check" onmousedown="myFunction()" onmouseup="myFunction()">
-        <input name="password2" type="password" placeholder="Confirmati">
-        <%
-            try
-            {
+        <select id="comboTip" name="tipprod">
+            <option>Piese</option>
+            <option>Autoturisme</option>
+        </select>
+        <% try {
                 Connection connection = SqlConnection.getInstance().getConnection();
-                String sql = "select codf, denf from functie;";
+                String sql = "select codp from piese;";
                 PreparedStatement stmt = connection.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery();
                 if(!rs.next())
                     System.out.println("No Records in the table");
-                else {%>
-        <select id="comboFuncii" name="functii">
-
+                else { %>
+        <select id="combocodp" name="codp">
             <% do {%>
-            <option value="<%= rs.getInt(1)%>"><%= rs.getString(2)%></option>
-            <%
-                        } while(rs.next());
-                    }
+            <option value="<%= rs.getString(1)%>"><%= rs.getString(1)%></option>
+            <%} while(rs.next());
+                }
                 }
                 catch(Exception e) {
                     System.out.println(e.getMessage());
@@ -78,16 +77,34 @@
                 } %>
         </select>
 
-        <script>
-            function myFunction() {
-                let pw_ele = document.getElementById("pass");
-                if (pw_ele.type === "password") {
-                    pw_ele.type = "text";
-                } else {
-                    pw_ele.type = "password";
-                }
+        <input id="produs" name="prod" type="text" placeholder="Produs" value="" readonly>
+        <input name="pret" id="pret" type="number" placeholder="Pret(fara TVA)" value="" readonly>
+        <input name="prettva" id="prettva" type="number" placeholder="Pret" value="" readonly>
+
+        <% try {
+            Connection connection = SqlConnection.getInstance().getConnection();
+            String sql = "select numec from client;";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            if(!rs.next())
+                System.out.println("No Records in the table");
+            else { %>
+        <select id="combonumec" name="conbon">
+            <% do {%>
+            <option value="<%= rs.getString(1)%>"><%= rs.getString(1)%></option>
+            <%} while(rs.next());
             }
-        </script>
+            }
+            catch(Exception e) {
+                System.out.println(e.getMessage());
+                e.getStackTrace();
+            } %>
+        </select>
+
+        <select id="comboprenumec" name="conbop">
+            <option>Selecteaza numele</option>
+        </select>
+
 
         <input name="adauga" type="submit" value="Adauga">
     </form>
@@ -141,8 +158,8 @@
         <td><%= rs.getInt(1)%></td>
         <td><%= rs.getString(2)%></td>
         <td><%= rs.getString(3)%></td>
-        <td><%= rs.getString(4)%></td>
-        <td><%= rs.getString(5)%></td>
+        <td><%= rs.getString(4) == null ? "" : rs.getString(4)%></td>
+        <td><%= rs.getString(5) == null ? "" : rs.getString(5)%></td>
         <td><%= rs.getString(6)%></td>
         <td><%= rs.getString(7)%></td>
         <td><%= rs.getInt(8)%></td>

@@ -39,32 +39,28 @@ public class VanzareServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Object user = session.getAttribute("user");
+
         String tipprod = request.getParameter("tipprod");
         String prod = request.getParameter("prod");
         String codp = request.getParameter("codp");
-        String vin = request.getParameter("vin");
         String pret = request.getParameter("pret");
         String prettva = request.getParameter("prettva");
-        String codc = request.getParameter("codc");
-        String numec = request.getParameter("numec");
-        String prenumec = request.getParameter("prenumec");
-        String angajat = request.getParameter("angajat");
+        String numec = request.getParameter("conbon");
+        String prenumec = request.getParameter("conbop");
+        String angajat = (String) user;
 
         VanzareModel vanzareModel = new VanzareModel();
 
         vanzareModel.setTipprod(tipprod);
         vanzareModel.setProd(prod);
         vanzareModel.setCodp(codp);
-        vanzareModel.setVin(vin);
         vanzareModel.setPret(pret);
         vanzareModel.setPrettva(prettva);
-        vanzareModel.setCodc(codc);
         vanzareModel.setNumec(numec);
         vanzareModel.setPrenumec(prenumec);
         vanzareModel.setAngajat(angajat);
-
-        HttpSession session = request.getSession();
-        Object user = session.getAttribute("user");
 
         if (Objects.equals(request.getParameter("action"), "edit")){
             try {

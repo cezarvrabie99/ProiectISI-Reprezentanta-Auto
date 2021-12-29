@@ -1,7 +1,6 @@
 package com.example.proiectisi.dao;
 
 import com.example.proiectisi.SqlConnection;
-import com.example.proiectisi.model.AngajatiModel;
 import com.example.proiectisi.model.FunctiiModel;
 
 import java.sql.Connection;
