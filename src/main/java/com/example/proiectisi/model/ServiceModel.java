@@ -5,9 +5,9 @@ import java.io.Serializable;
 public class ServiceModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String codc, numec, prenumec, vin, model, codp, denp, angajat, stare, garantie, datas, oras;
+    private String codc, numec, prenumec, vin, model, codp, denp, angajat, stare, garantie;
 
-    public ServiceModel(String codc, String numec, String prenumec, String vin, String model, String codp, String denp, String angajat, String stare, String garantie, String datas, String oras) {
+    public ServiceModel(String codc, String numec, String prenumec, String vin, String model, String codp, String denp, String angajat, String stare, String garantie) {
         this.codc = codc;
         this.numec = numec;
         this.prenumec = prenumec;
@@ -18,8 +18,6 @@ public class ServiceModel implements Serializable {
         this.angajat = angajat;
         this.stare = stare;
         this.garantie = garantie;
-        this.datas = datas;
-        this.oras = oras;
     }
 
     public ServiceModel() {
@@ -104,21 +102,5 @@ public class ServiceModel implements Serializable {
 
     public void setGarantie(String garantie) {
         this.garantie = garantie;
-    }
-
-    public String getDatas() {
-        return datas;
-    }
-
-    public void setDatas(String datas) {
-        this.datas = datas;
-    }
-
-    public String getOras() {
-        return oras;
-    }
-
-    public void setOras(String oras) {
-        this.oras = oras;
     }
 }
