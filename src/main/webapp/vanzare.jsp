@@ -50,7 +50,7 @@
 </script>
 
 <div id="prod">
-    <form method="post" action="${pageContext.request.contextPath}/vanzare" autocomplete="off">
+    <form id="form" method="post" action="${pageContext.request.contextPath}/vanzare" onsubmit="return validate('vanzare')" autocomplete="off">
         <label>Logat cu <%=session.getAttribute("user")%></label>
         <a href="${pageContext.request.contextPath}/logout">Logout</a>
         <select id="comboTip" name="tipprod">
@@ -77,9 +77,23 @@
                 } %>
         </select>
 
-        <input id="produs" name="prod" type="text" placeholder="Produs" value="" readonly>
-        <input name="pret" id="pret" type="number" placeholder="Pret(fara TVA)" value="" readonly>
-        <input name="prettva" id="prettva" type="number" placeholder="Pret" value="" readonly>
+        <div class="input">
+            <input id="produs" name="prod" type="text" placeholder="Produs" value="" readonly>
+            <label id="prod1" class="dnone">✓</label>
+            <label id="prod0" class="dnone">✖</label>
+        </div>
+
+        <div class="input">
+            <input name="pret" id="pret" type="number" placeholder="Pret(fara TVA)" value="" readonly>
+            <label id="pret1" class="dnone">✓</label>
+            <label id="pret0" class="dnone">✖</label>
+        </div>
+
+        <div class="input">
+            <input name="prettva" id="prettva" type="number" placeholder="Pret" value="" readonly>
+            <label id="prettva1" class="dnone">✓</label>
+            <label id="prettva0" class="dnone">✖</label>
+        </div>
 
         <% try {
             Connection connection = SqlConnection.getInstance().getConnection();
@@ -101,10 +115,13 @@
             } %>
         </select>
 
-        <select id="comboprenumec" name="conbop">
-            <option>Selecteaza numele</option>
-        </select>
-
+        <div class="input">
+            <select id="comboprenumec" name="conbop">
+                <option>Selecteaza numele</option>
+            </select>
+            <label id="conbop1" class="dnone">✓</label>
+            <label id="conbop0" class="dnone">✖</label>
+        </div>
 
         <input name="adauga" type="submit" value="Adauga">
     </form>

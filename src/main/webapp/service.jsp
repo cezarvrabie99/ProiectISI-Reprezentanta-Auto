@@ -54,7 +54,7 @@
     <label>Logat cu <%=session.getAttribute("user")%></label>
     <a href="${pageContext.request.contextPath}/logout">Logout</a>
     <% if (codLog != 1) {%>
-    <form method="post" action="${pageContext.request.contextPath}/service" autocomplete="off">
+    <form id="form" method="post" action="${pageContext.request.contextPath}/service" onsubmit="return validate('service')" autocomplete="off">
 
         <%
             try
@@ -79,10 +79,19 @@
                 } %>
         </select>
 
-        <select id="comboprenumec" name="conbop">
-            <option>Selecteaza numele</option>
-        </select>
-        <input id="vin" name="vin" type="text" placeholder="VIN">
+        <div class="input">
+            <select id="comboprenumec" name="conbop">
+                <option>Selecteaza numele</option>
+            </select>
+            <label id="conbop1" class="dnone">✓</label>
+            <label id="conbop0" class="dnone">✖</label>
+        </div>
+
+        <div class="input">
+            <input id="vin" name="vin" type="text" placeholder="VIN">
+            <label id="vin1" class="dnone">✓</label>
+            <label id="vin0" class="dnone">✖</label>
+        </div>
 
         <% try {
                 Connection connection = SqlConnection.getInstance().getConnection();
@@ -105,22 +114,30 @@
                 } %>
         </select>
 
-        <input id="produs" name="prod" type="text" placeholder="Produs" value="Selecteaza Piesa" readonly>
+        <div class="input">
+            <input id="produs" name="prod" type="text" placeholder="Produs" value="Selecteaza Piesa" readonly>
+            <label id="prod1" class="dnone">✓</label>
+            <label id="prod0" class="dnone">✖</label>
+        </div>
+
         <select id="status" name="status">
             <option>In asteptare</option>
             <option>In reparatie</option>
             <option>Finalizata</option>
             <option>Ridicata</option>
         </select>
+
         <input name="garantie" id="garantie" type="checkbox" value="Garantie">
         <label for="garantie">Garantie</label>
 
         <% if (codLog != 6 && codLog !=1) {%>
+        <hr>
         <div class="link">
             <a class="edit" onclick="exportToExcel('table', 'Service')"><img src="${pageContext.request.contextPath}/assets/img/excel.png" alt="Export Excel" title="Export Excel"></a>
             <a class="edit" onclick="exportToPDF('#table', 'Service')"><img src="${pageContext.request.contextPath}/assets/img/pdf.png" alt="Export PDF" title="Export PDF"></a>
         </div>
         <% } %>
+        <hr>
 
         <input name="adauga" type="submit" value="Adauga">
     </form>

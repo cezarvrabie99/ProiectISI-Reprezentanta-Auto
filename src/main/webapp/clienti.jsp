@@ -46,25 +46,72 @@
 </script>
 
 <div id="prod">
-    <form method="post" action="${pageContext.request.contextPath}/clienti" autocomplete="off">
+    <form id="form" method="post" action="${pageContext.request.contextPath}/clienti" onsubmit="return validate('clienti')" autocomplete="off">
         <label>Logat cu <%=session.getAttribute("user")%></label>
         <a href="${pageContext.request.contextPath}/logout">Logout</a>
-        <input name="numec" type="text" placeholder="Nume">
-        <input name="prenumec" type="text" placeholder="Prenume">
-        <input name="cnp" type="text" placeholder="CNP">
-        <input name="adresac" type="text" placeholder="Adresa">
-        <input name="telefonc" type="text" placeholder="Nr. de telefon">
-        <input name="emailc" type="text" placeholder="Email">
-        <input name="localitate" type="text" placeholder="Localitate">
-        <input name="judet" type="text" placeholder="Judet">
-        <input name="tara" type="text" placeholder="Tara">
+
+        <div class="input">
+            <input name="numec" type="text" placeholder="Nume">
+            <label id="numec1" class="dnone">✓</label>
+            <label id="numec0" class="dnone">✖</label>
+        </div>
+
+        <div class="input">
+            <input name="prenumec" type="text" placeholder="Prenume">
+            <label id="prenumec1" class="dnone">✓</label>
+            <label id="prenumec0" class="dnone">✖</label>
+        </div>
+
+        <div class="input">
+            <input name="cnp" type="text" placeholder="CNP">
+            <label id="cnp1" class="dnone">✓</label>
+            <label id="cnp0" class="dnone">✖</label>
+        </div>
+
+        <div class="input">
+            <input name="adresac" type="text" placeholder="Adresa">
+            <label id="adresac1" class="dnone">✓</label>
+            <label id="adresac0" class="dnone">✖</label>
+        </div>
+
+        <div class="input">
+            <input name="telefonc" type="text" placeholder="Nr. de telefon">
+            <label id="telefonc1" class="dnone">✓</label>
+            <label id="telefonc0" class="dnone">✖</label>
+        </div>
+
+        <div class="input">
+            <input name="emailc" type="text" placeholder="Email">
+            <label id="emailc1" class="dnone">✓</label>
+            <label id="emailc0" class="dnone">✖</label>
+        </div>
+
+        <div class="input">
+            <input name="localitate" type="text" placeholder="Localitate">
+            <label id="localitate1" class="dnone">✓</label>
+            <label id="localitate0" class="dnone">✖</label>
+        </div>
+
+        <div class="input">
+            <input name="judet" type="text" placeholder="Judet">
+            <label id="judet1" class="dnone">✓</label>
+            <label id="judet0" class="dnone">✖</label>
+        </div>
+
+        <div class="input">
+            <input name="tara" type="text" placeholder="Tara">
+            <label id="tara1" class="dnone">✓</label>
+            <label id="tara0" class="dnone">✖</label>
+        </div>
 
         <% if (codLog != 6) {%>
+        <hr>
             <div class="link">
                 <a class="edit" onclick="exportToExcel('table', 'Clienti')"><img src="${pageContext.request.contextPath}/assets/img/excel.png" alt="Export Excel" title="Export Excel"></a>
                 <a class="edit" onclick="exportToPDF('#table', 'Clienti')"><img src="${pageContext.request.contextPath}/assets/img/pdf.png" alt="Export PDF" title="Export PDF"></a>
             </div>
         <% } %>
+        <hr>
         <input name="adauga" type="submit" value="Adauga">
     </form>
     <input type='text' id='searchTable' placeholder='Cautare'>

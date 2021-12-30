@@ -61,7 +61,7 @@ public class ServiceServlet extends HttpServlet {
         serviceModel.setNumec(numec);
         serviceModel.setPrenumec(prenumec);
         serviceModel.setVin(vin);
-        serviceModel.setModel(model);
+        //serviceModel.setModel(model);
         serviceModel.setCodp(codp);
         serviceModel.setDenp(denp);
         serviceModel.setAngajat(angajat);

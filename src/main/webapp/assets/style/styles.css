@@ -76,13 +76,12 @@ td, th {
 .login input[type="submit"],
 #prod input[type="submit"], #down {
     cursor: pointer;
-    width: 100%;
     border: none;
     background: #d55a19;
     color: #FFF;
-    margin: 20px 0 10px;
     padding: 12px;
     font-size: 15px;
+    width: 90%;
 }
 
 .login input[type="submit"]:hover,

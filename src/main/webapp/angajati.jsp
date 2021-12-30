@@ -44,7 +44,7 @@
 </script>
 
 <div id="prod">
-    <form id="form" method="post" action="${pageContext.request.contextPath}/angajati" onsubmit="return validation()" autocomplete="off">
+    <form id="form" method="post" action="${pageContext.request.contextPath}/angajati" onsubmit="return validate('angajati')" autocomplete="off">
         <label>Logat cu <%=session.getAttribute("user")%></label>
         <a href="${pageContext.request.contextPath}/logout">Logout</a>
         <div class="input">
@@ -124,10 +124,13 @@
                 e.getStackTrace();
             } %>
         </select>
+
+        <hr>
         <div class="link">
             <a class="edit" onclick="exportToExcel('table', 'Angajati')"><img src="${pageContext.request.contextPath}/assets/img/excel.png" alt="Export Excel" title="Export Excel"></a>
             <a class="edit" onclick="exportToPDF('#table', 'Angajati')"><img src="${pageContext.request.contextPath}/assets/img/pdf.png" alt="Export PDF" title="Export PDF"></a>
         </div>
+        <hr>
         <input name="adauga" type="submit" value="Adauga">
     </form>
     <input type='text' id='searchTable' placeholder='Cautare'>

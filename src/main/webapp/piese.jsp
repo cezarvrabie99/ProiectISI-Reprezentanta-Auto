@@ -50,13 +50,34 @@
 </script>
 
 <div id="prod">
-<form method="post" action="${pageContext.request.contextPath}/piese" autocomplete="off">
+<form id="form" method="post" action="${pageContext.request.contextPath}/piese" onsubmit="return validate('piese')"autocomplete="off">
     <label>Logat cu <%=session.getAttribute("user")%></label>
     <a href="${pageContext.request.contextPath}/logout">Logout</a>
-    <input name="codp" type="text" placeholder="Cod piesa">
-    <input name="denp" type="text" placeholder="Denumire">
-    <input name="pretp" id="pretp" type="number" placeholder="Pret(fara TVA)" onkeyup="addVat()">
-    <input name="pretptva" id="pretptva" type="text" placeholder="Pret(cu TVA)" readonly>
+
+    <div class="input">
+        <input name="codp" type="text" placeholder="Cod piesa">
+        <label id="codp1" class="dnone">✓</label>
+        <label id="codp0" class="dnone">✖</label>
+    </div>
+
+    <div class="input">
+        <input name="denp" type="text" placeholder="Denumire">
+        <label id="denp1" class="dnone">✓</label>
+        <label id="denp0" class="dnone">✖</label>
+    </div>
+
+    <div class="input">
+        <input name="pretp" id="pretp" type="number" placeholder="Pret(fara TVA)" onkeyup="addVat()">
+        <label id="pretp1" class="dnone">✓</label>
+        <label id="pretp0" class="dnone">✖</label>
+    </div>
+
+    <div class="input">
+        <input name="pretptva" id="pretptva" type="text" placeholder="Pret(cu TVA)" readonly>
+        <label id="pretptva1" class="dnone">✓</label>
+        <label id="pretptva0" class="dnone">✖</label>
+    </div>
+
     <script type='text/javascript'>
         function addVat() {
             let pret = document.getElementById("pretp").value;
@@ -69,11 +90,13 @@
     </script>
 
     <% if (codLog != 6 && codLog !=1) {%>
+    <hr>
         <div class="link">
             <a class="edit" onclick="exportToExcel('table', 'Piese')"><img src="${pageContext.request.contextPath}/assets/img/excel.png" alt="Export Excel" title="Export Excel"></a>
             <a class="edit" onclick="exportToPDF('#table', 'Piese')"><img src="${pageContext.request.contextPath}/assets/img/pdf.png" alt="Export PDF" title="Export PDF"></a>
         </div>
     <% } %>
+    <hr>
 
     <input name="adauga" type="submit" value="Adauga">
 </form>

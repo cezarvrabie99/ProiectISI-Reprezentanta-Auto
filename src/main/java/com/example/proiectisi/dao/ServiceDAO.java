@@ -24,7 +24,7 @@ public class ServiceDAO {
         preparedStatement.setString(2, serviceModel.getNumec());
         preparedStatement.setString(3, serviceModel.getPrenumec());
         preparedStatement.setString(4, serviceModel.getVin());
-        preparedStatement.setString(5, serviceModel.getModel());
+        preparedStatement.setString(5, getModel(serviceModel.getVin()));
         preparedStatement.setString(6, serviceModel.getCodp());
         preparedStatement.setString(7, serviceModel.getDenp());
         preparedStatement.setString(8, serviceModel.getAngajat());
@@ -49,7 +49,7 @@ public class ServiceDAO {
         preparedStatement.setString(2, serviceModel.getNumec());
         preparedStatement.setString(3, serviceModel.getPrenumec());
         preparedStatement.setString(4, serviceModel.getVin());
-        preparedStatement.setString(5, serviceModel.getModel());
+        preparedStatement.setString(5, getModel(serviceModel.getVin()));
         preparedStatement.setString(6, serviceModel.getCodp());
         preparedStatement.setString(7, serviceModel.getDenp());
         preparedStatement.setString(8, serviceModel.getStare());
@@ -84,5 +84,24 @@ public class ServiceDAO {
             return rs.getInt(1);
 
         return -1;
+    }
+
+    public String getModel(String vin) {
+        vin = vin.toUpperCase();
+        char vin3 = vin.charAt(3);
+        switch (vin3){
+            case 'S':
+                return "Model S";
+            case '3':
+                return "Model 3";
+            case 'X':
+                return "Model X";
+            case 'Y':
+                return "Model Y";
+            case 'R':
+                return "Roadster";
+            default:
+                return "error";
+        }
     }
 }

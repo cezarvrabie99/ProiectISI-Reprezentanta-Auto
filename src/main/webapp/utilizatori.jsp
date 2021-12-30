@@ -45,13 +45,25 @@
 </script>
 
 <div id="prod">
-    <form method="post" action="${pageContext.request.contextPath}/utilizatori" autocomplete="off">
+    <form id="form" method="post" action="${pageContext.request.contextPath}/utilizatori" onsubmit="return validate('utilizatori')" autocomplete="off">
         <label>Logat cu <%=session.getAttribute("user")%></label>
         <a href="${pageContext.request.contextPath}/logout">Logout</a>
-        <input name="username" type="text" placeholder="Denumire">
+
+        <div class="input">
+            <input name="username" type="text" placeholder="Denumire">
+            <label id="username1" class="dnone">✓</label>
+            <label id="username0" class="dnone">✖</label>
+        </div>
+
         <input name="password" id="pass" type="password" placeholder="Parola">
         <input type="checkbox" id="check" onmousedown="myFunction()" onmouseup="myFunction()">
-        <input name="password2" type="password" placeholder="Confirmati">
+
+        <div class="input">
+            <input name="password2" type="password" placeholder="Confirmati">
+            <label id="password21" class="dnone">✓</label>
+            <label id="password20" class="dnone">✖</label>
+        </div>
+
         <%
             try
             {

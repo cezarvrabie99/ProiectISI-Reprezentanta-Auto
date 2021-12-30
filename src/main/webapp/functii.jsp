@@ -44,12 +44,28 @@
 </script>
 
 <div id="prod">
-    <form method="post" action="${pageContext.request.contextPath}/functii" autocomplete="off">
+    <form id="form" method="post" action="${pageContext.request.contextPath}/functii" onsubmit="return validate('functii')" autocomplete="off">
         <label>Logat cu <%=session.getAttribute("user")%></label>
         <a href="${pageContext.request.contextPath}/logout">Logout</a>
-        <input name="denf" type="text" placeholder="Denumire">
-        <input name="salariubrut" id="salariubrut" type="number" placeholder="Salariul brut" onkeyup="updateSal()">
-        <input name="salariunet" id="salariunet" type="text" placeholder="Salariul net" readonly>
+
+        <div class="input">
+            <input name="denf" type="text" placeholder="Denumire">
+            <label id="denf1" class="dnone">✓</label>
+            <label id="denf0" class="dnone">✖</label>
+        </div>
+
+        <div class="input">
+            <input name="salariubrut" id="salariubrut" type="number" placeholder="Salariul brut" onkeyup="updateSal()">
+            <label id="salariubrut1" class="dnone">✓</label>
+            <label id="salariubrut0" class="dnone">✖</label>
+        </div>
+
+        <div class="input">
+            <input name="salariunet" id="salariunet" type="text" placeholder="Salariul net" readonly>
+            <label id="salariunet1" class="dnone">✓</label>
+            <label id="salariunet0" class="dnone">✖</label>
+        </div>
+
         <script type='text/javascript'>
             function updateSal() {
                 let brut = document.getElementById("salariubrut").value;

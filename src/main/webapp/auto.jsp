@@ -49,11 +49,16 @@
 </script>
 
 <div id="prod">
-    <form method="post" action="${pageContext.request.contextPath}/auto" autocomplete="off">
+    <form id="form" method="post" action="${pageContext.request.contextPath}/auto" onsubmit="return validate('auto')" autocomplete="off">
         <label>Logat cu <%=session.getAttribute("user")%></label>
         <a href="${pageContext.request.contextPath}/logout">Logout</a>
 
-        <input name="vin" type="text" placeholder="VIN">
+        <div class="input">
+            <input name="vin" type="text" placeholder="VIN">
+            <label id="vin1" class="dnone">✓</label>
+            <label id="vin0" class="dnone">✖</label>
+        </div>
+
         <select name="model" id="model">
             <option>Model S</option>
             <option>Model 3</option>
@@ -84,7 +89,12 @@
         <input name="autopilot" id="autopilot" type="checkbox" value="Autopilot">
         <label for="autopilot">Autopilot</label>
 
-        <input name="data_fab" id="data_fab" type="date">
+        <div class="input">
+            <input name="data_fab" id="data_fab" type="date">
+            <label id="data_fab1" class="dnone">✓</label>
+            <label id="data_fab0" class="dnone">✖</label>
+        </div>
+
         <script type="text/javascript">
             $(function() {
                 $(document).ready(function () {
@@ -100,8 +110,19 @@
         <input name="nr_usi" id="nr_usi" type="number" placeholder="Nr. usi" value="5" readonly style="cursor: not-allowed">
         <input name="tractiune" id="tractiune" type="text" placeholder="Tractiune" value="Integrala" readonly style="cursor: not-allowed">
         <input name="baterie" id="baterie" type="number" placeholder="Bateriei" value="100" readonly style="cursor: not-allowed">
-        <input name="preta" id="preta" type="number" placeholder="Pret(fara TVA)" onkeyup="addVat()">
-        <input name="pretatva" id="pretatva" type="text" placeholder="Pret(cu TVA)" readonly>
+
+        <div class="input">
+            <input name="preta" id="preta" type="number" placeholder="Pret(fara TVA)" onkeyup="addVat()">
+            <label id="preta1" class="dnone">✓</label>
+            <label id="preta0" class="dnone">✖</label>
+        </div>
+
+        <div class="input">
+            <input name="pretatva" id="pretatva" type="text" placeholder="Pret(cu TVA)" readonly>
+            <label id="pretatva1" class="dnone">✓</label>
+            <label id="pretatva0" class="dnone">✖</label>
+        </div>
+
         <script type='text/javascript'>
             function addVat() {
                 let pret = document.getElementById("preta").value;
@@ -112,7 +133,12 @@
                 }
             }
         </script>
-        <input name="stoc" type="number" placeholder="Stoc">
+        <div class="input">
+            <input name="stoc" type="number" min="0" placeholder="Stoc">
+            <label id="stoc1" class="dnone">✓</label>
+            <label id="stoc0" class="dnone">✖</label>
+        </div>
+
         <input name="adauga" type="submit" value="Adauga">
     </form>
 
